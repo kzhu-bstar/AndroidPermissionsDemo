@@ -20,7 +20,7 @@ public class PermissionsUtils {
 
 
     public static void onRequestPermissionsResult() {
-
+        Log.i(Constants.TAG, "Requesting permission result.");
     }
 
     public static void checkSelfPermission() {
