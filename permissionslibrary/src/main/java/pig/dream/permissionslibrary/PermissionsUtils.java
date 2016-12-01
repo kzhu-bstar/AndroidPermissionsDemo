@@ -3,6 +3,7 @@ package pig.dream.permissionslibrary;
 import android.Manifest;
 import android.app.Activity;
 import android.content.Context;
+import android.content.pm.PackageManager;
 import android.support.annotation.NonNull;
 import android.support.design.widget.Snackbar;
 import android.support.v4.app.ActivityCompat;
@@ -19,12 +20,36 @@ import android.view.View;
 public class PermissionsUtils {
 
 
-    public static void onRequestPermissionsResult() {
-        Log.i(Constants.TAG, "Requesting permission result.");
+    public static void onRequestPermissionsResult(int requestCode, @NonNull String[] permissions, @NonNull int[] grantResults) {
+        Log.i(Constants.TAG, "Requesting permission result. " + verifyPermissions(grantResults));
+        if (verifyPermissions(grantResults)) {
+
+        } else {
+
+        }
     }
 
     public static void checkSelfPermission() {
 //        ContextCompat.checkSelfPermission()
+    }
+
+    /**
+     * Checks all given permissions have been granted.
+     * 检查返回值  所有权限是否已授权
+     *
+     * @param grantResults results
+     * @return returns true if all permissions have been granted.
+     */
+    public static boolean verifyPermissions(int... grantResults) {
+        if (grantResults.length == 0) {
+            return false;
+        }
+        for (int result : grantResults) {
+            if (result != PackageManager.PERMISSION_GRANTED) {
+                return false;
+            }
+        }
+        return true;
     }
 
     public static void requestCameraPermission(@NonNull final Activity activity, @NonNull final View view) {
@@ -55,5 +80,6 @@ public class PermissionsUtils {
                     Constants.REQUEST_CAMERA);
         }
     }
+
 
 }
